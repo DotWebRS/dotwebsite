@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import WebGLCanvas from "./WebGLCanvas";
 import './App.css';
 
 type Technology = {
@@ -113,6 +114,7 @@ function App() {
 
   return (
     <main className="site-shell">
+      <WebGLCanvas />
       <section className="hero-screen" aria-label="Dotweb landing">
         <div className="three-placeholder" aria-hidden="true" />
         <button className="scroll-cue" type="button" onClick={scrollToIntro} aria-label="Scroll to content">
