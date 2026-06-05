@@ -18,6 +18,7 @@ export default class Experience{
         instance = this;
         //Global access
         window.experience = this;
+        this.isMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 992;
         this.scroll = new Scroll();
         this.canvas = canvas;
         this.debug = new Debug();
@@ -29,7 +30,6 @@ export default class Experience{
         this.camera = new Camera();
         this.renderer = new Renderer();
         this.world = new World();
-
         this.sizes.on('resize', ()=>{
             this.resize();
         })

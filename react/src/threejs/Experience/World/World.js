@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import Experience from "../Experience.js";
 import Environment from './Environment.js';
 import Logo from './Logo.js';
@@ -12,7 +11,9 @@ export default class World{
         this.resources.on('ready', ()=>{
             this.envronment = new Environment();
             this.logo = new Logo();
-            this.tedbow = new TedBow();
+            if(!this.experience.isMobile){
+                this.tedbow = new TedBow();
+            }
         });
     }
 

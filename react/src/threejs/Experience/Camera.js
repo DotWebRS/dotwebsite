@@ -15,6 +15,12 @@ export default class Camera{
 
     setInstance(){
         this.instance = new THREE.PerspectiveCamera(35, this.sizes.width / this.sizes.height, 0.1, 1000);
+        console.log(this.experience.isMobile);
+        if(this.experience.isMobile){
+            console.log(this.instance);
+            this.instance.fov = 80;
+            this.instance.updateProjectionMatrix();
+        }
         this.instance.position.set(0, 0, 40);
         this.scene.add(this.instance);
     }
@@ -23,6 +29,11 @@ export default class Camera{
         this.controls.enableDamping = true;
     }
     resize(){
+        if(this.experience.isMobile){
+            this.instance.fov = 80;
+        }else{
+            this.instance.fov = 35;
+        }
         this.instance.aspect = this.sizes.width / this.sizes.height;
         this.instance.updateProjectionMatrix();
     }

@@ -39,10 +39,12 @@ export default class Logo {
     initMouse() {
 
         this.raycaster.on('mouseMove', (p) => {
+            if(this.experience.isMobile) return;
             this.mousePoint.copy(p);
         });
 
         this.raycaster.on('mouseOut', () => {
+            if(this.experience.isMobile) return;
             this.mousePoint.set(999, 999, 999);
         });
     }
@@ -100,9 +102,32 @@ export default class Logo {
                 }
             }
         }
+        
+        const shape = new THREE.Shape();
 
-        this.geometry = new THREE.BoxGeometry(0.05, 0.05, 0.05);
+        const outer = 0.06*2;
+        const inner = 0.015*2;
 
+        for(let i = 0; i < 10; i++)
+        {
+            const angle = (i / 10) * Math.PI * 2;
+
+            const radius = i % 2 === 0
+                ? outer
+                : inner;
+
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+
+            if(i === 0)
+                shape.moveTo(x, y);
+            else
+                shape.lineTo(x, y);
+        }
+
+        shape.closePath();
+
+        this.geometry = new THREE.ShapeGeometry(shape);
         this.material = new THREE.MeshBasicMaterial({
             color: new THREE.Color('#0148B2'),
             wireframe: true
