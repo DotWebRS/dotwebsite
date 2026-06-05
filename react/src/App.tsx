@@ -85,6 +85,7 @@ function App() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isTimelineVisible, setIsTimelineVisible] = useState(false);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const contactFormRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     const timeline = timelineRef.current;
@@ -108,8 +109,41 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!isContactOpen) {
+      return undefined;
+    }
+
+    const scrollFormIntoView = () => {
+      const form = contactFormRef.current;
+
+      if (!form) {
+        return;
+      }
+
+      const formRect = form.getBoundingClientRect();
+      const overflow = formRect.bottom - window.innerHeight + 24;
+
+      if (overflow > 0) {
+        window.scrollBy({ top: overflow, behavior: 'smooth' });
+      }
+    };
+
+    const earlyScroll = window.setTimeout(scrollFormIntoView, 120);
+    const finalScroll = window.setTimeout(scrollFormIntoView, 520);
+
+    return () => {
+      window.clearTimeout(earlyScroll);
+      window.clearTimeout(finalScroll);
+    };
+  }, [isContactOpen]);
+
   const scrollToIntro = () => {
     document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const toggleContactForm = () => {
+    setIsContactOpen((current) => !current);
   };
 
   return (
@@ -207,14 +241,18 @@ function App() {
           <button
             className="project-button"
             type="button"
-            onClick={() => setIsContactOpen((current) => !current)}
+            onClick={toggleContactForm}
             aria-expanded={isContactOpen}
             aria-controls="contact-form"
           >
             Start a project <span aria-hidden="true">&rarr;</span>
           </button>
 
-          <form className={`contact-form ${isContactOpen ? 'contact-form--open' : ''}`} id="contact-form">
+          <form
+            className={`contact-form ${isContactOpen ? 'contact-form--open' : ''}`}
+            id="contact-form"
+            ref={contactFormRef}
+          >
             <label>
               <span>Name</span>
               <input type="text" name="name" />
