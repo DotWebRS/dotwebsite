@@ -59,7 +59,7 @@ export default class TedBow{
             new THREE.Vector3(12,3,10),
             new THREE.Vector3(-20,-5,4),
             new THREE.Vector3(15,-10,11),
-            new THREE.Vector3(-6, -15, 18)
+            new THREE.Vector3(-8, -15, 18)
         ]);
         this.scrollAnim = {
             t: 0
